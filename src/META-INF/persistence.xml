@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="FatJPA" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>br.entidade.Acessos</class>
+    <class>br.entidade.Banco</class>
+    <class>br.entidade.Caixa</class>
+    <class>br.entidade.Convenio</class>
+    <class>br.entidade.Devedores</class>
+    <class>br.entidade.Entrada</class>
+    <class>br.entidade.Fatura</class>
+    <class>br.entidade.Formapagamento</class>
+    <class>br.entidade.Glosa</class>
+    <class>br.entidade.GrupoUsuarios</class>
+    <class>br.entidade.Historico</class>
+    <class>br.entidade.Imposto</class>
+    <class>br.entidade.MascaraConvenio</class>
+    <class>br.entidade.Nota</class>
+    <class>br.entidade.Perda</class>
+    <class>br.entidade.Producao</class>
+    <class>br.entidade.Recurso</class>
+    <class>br.entidade.Resto</class>
+    <class>br.entidade.Saida</class>
+    <class>br.entidade.Usuarios</class>
+    <class>br.entidade.Versao</class>
+    <class>br.entidade.sft.SftCtrlAcao</class>
+    <class>br.entidade.sft.SftCtrlHistorico</class>
+    <class>br.entidade.sft.SftInputAten</class>
+    <class>br.entidade.sft.SftInputNcon</class>
+    <class>br.entidade.sft.SftInputStat</class>
+    <class>br.entidade.sft.SftInputUnid</class>
+    <class>br.entidade.sft.SftOutputCort</class>
+    <class>br.entidade.sft.SftOutputDesc</class>
+    <class>br.entidade.sft.SftOutputGlos</class>
+    <class>br.entidade.sft.SftOutputInco</class>
+    <class>br.entidade.sft.SftOutputPart</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.0.2:3306/faturamento?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="JPAPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>br.entidade.Acessos</class>
+    <class>br.entidade.Banco</class>
+    <class>br.entidade.Caixa</class>
+    <class>br.entidade.Convenio</class>
+    <class>br.entidade.Devedores</class>
+    <class>br.entidade.Entrada</class>
+    <class>br.entidade.Fatura</class>
+    <class>br.entidade.Formapagamento</class>
+    <class>br.entidade.Glosa</class>
+    <class>br.entidade.GrupoUsuarios</class>
+    <class>br.entidade.Historico</class>
+    <class>br.entidade.Imposto</class>
+    <class>br.entidade.MascaraConvenio</class>
+    <class>br.entidade.Nota</class>
+    <class>br.entidade.Perda</class>
+    <class>br.entidade.Producao</class>
+    <class>br.entidade.Recurso</class>
+    <class>br.entidade.Resto</class>
+    <class>br.entidade.Saida</class>
+    <class>br.entidade.Usuarios</class>
+    <class>br.entidade.Versao</class>
+    <class>br.entidade.sft.SftCtrlAcao</class>
+    <class>br.entidade.sft.SftCtrlHistorico</class>
+    <class>br.entidade.sft.SftInputAten</class>
+    <class>br.entidade.sft.SftInputNcon</class>
+    <class>br.entidade.sft.SftInputStat</class>
+    <class>br.entidade.sft.SftInputUnid</class>
+    <class>br.entidade.sft.SftOutputCort</class>
+    <class>br.entidade.sft.SftOutputDesc</class>
+    <class>br.entidade.sft.SftOutputGlos</class>
+    <class>br.entidade.sft.SftOutputInco</class>
+    <class>br.entidade.sft.SftOutputPart</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://187.115.148.178:3306/faturamento?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+    </properties>
+  </persistence-unit>
+</persistence>
