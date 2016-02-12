@@ -479,7 +479,7 @@ public class JPGlosa extends javax.swing.JPanel {
 
     private void jCStatusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCStatusKeyPressed
         // TODO add your handling code here:
-        if(KeyEvent.VK_ENTER == evt.getKeyCode()){
+        if (KeyEvent.VK_ENTER == evt.getKeyCode()) {
             status();
             jCStatus.nextFocus();
         }
@@ -624,15 +624,15 @@ public class JPGlosa extends javax.swing.JPanel {
     }//GEN-LAST:event_uploadBotonActionPerformed
 
     private void valorFildFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorFildFocusLost
-        
+
         valor(valorFild.getText());
-        
+
     }//GEN-LAST:event_valorFildFocusLost
 
 
     private void valorFildKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_valorFildKeyReleased
         // TODO add your handling code here:
-        if(KeyEvent.VK_ENTER == evt.getKeyCode()){
+        if (KeyEvent.VK_ENTER == evt.getKeyCode()) {
             masterTable.setValueAt(valorFild.getText(), masterTable.getSelectedRow(), 9);
         }
     }//GEN-LAST:event_valorFildKeyReleased
@@ -685,11 +685,11 @@ public class JPGlosa extends javax.swing.JPanel {
     private boolean atendente;
     private boolean convenio;
     private DefaultTableModel dtm = new DefaultTableModel(null, new String[]{
-    "Usuario", "Data", "Numero OS", "Unidade", "Atendente", "Convênio", 
-        "Não Conformidade","Observação", "Status", "Valor"});
+        "Usuario", "Data", "Numero OS", "Unidade", "Atendente", "Convênio",
+        "Não Conformidade", "Observação", "Status", "Valor"});
     private ListSelectionModel lsm;
     //fim declaração de variavel
-    
+
     //construtor
     private void iniciarComponentes() {
         emf = CriaConexao.getInstance().getEntityManager();
@@ -698,7 +698,7 @@ public class JPGlosa extends javax.swing.JPanel {
         listarPesquisa();
         listarBox();
     }
-    
+
     //pesquisa padrão do banco de dados
     private void listarPesquisa() {
         list = dao.getGlosMonth();
@@ -708,24 +708,28 @@ public class JPGlosa extends javax.swing.JPanel {
         boxNcon = new Business().findAll(SftInputNcon.class);
         boxStatus = new Business().findAll(SftInputStat.class);
         boxConv = new Business().findAll(Convenio.class);
-        mostraPesquisa();    
+        mostraPesquisa();
     }
-    
+
     //busca por OS
-    public void pesquisa(String os){
+    public void pesquisa(String os) {
         list = dao.getGlosList(os);
         mostraPesquisa();
     }
-    
+
     //preencher os combobox com os Objetos
     private void listarBox() {
         codAten = new ArrayList<>();
         for (SftInputAten sftAten : boxAten) {
-            codAten.add(sftAten.getAtenUsUsaten().replace("USER", ""));
+            if (sftAten.getAtenNmNmaten() != null) {
+                codAten.add(sftAten.getAtenUsUsaten().replace("USER", ""));
+            }
         }
         codUnid = new ArrayList<>();
         for (SftInputUnid sftUnid : boxUnid) {
-            codUnid.add(sftUnid.getUnidCodCodigo());
+            if (sftUnid.getUnidCodCodigo() != null) {
+                codUnid.add(sftUnid.getUnidCodCodigo());
+            }
         }
 
         nConCombo.removeAllItems();
@@ -739,43 +743,43 @@ public class JPGlosa extends javax.swing.JPanel {
             }
         }
         boxNcon.removeAll(removeNcon);
-        
+
         jCStatus.removeAllItems();
         jCStatus.addItem(null);
         List<SftInputStat> removeStatus = new ArrayList<>();
         for (SftInputStat sftStatus : boxStatus) {
-            if(sftStatus.getStatusNmDescricao().contains("ZZ ")){
+            if (sftStatus.getStatusNmDescricao().contains("ZZ ")) {
                 removeStatus.add(sftStatus);
-            }else{
+            } else {
                 jCStatus.addItem(sftStatus.getStatusNmDescricao());
             }
         }
-        
+
         codMascara = new ArrayList<>();
         for (Convenio sftConvenios : boxConv) {
             codMascara.add(String.valueOf(sftConvenios.getCodigo()));
         }
     }
-    
+
     /*
-        "Usuario", "Data", "Numero OS", "Unidade", "Atendente", "Convênio", 
-        "Não Conformidade","Observação", "Status", "Valor"});
-    */
+     "Usuario", "Data", "Numero OS", "Unidade", "Atendente", "Convênio", 
+     "Não Conformidade","Observação", "Status", "Valor"});
+     */
     //exibição
     private void mostraPesquisa() {
-        while(dtm.getRowCount() > 0){
+        while (dtm.getRowCount() > 0) {
             dtm.removeRow(0);
         }
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             //ErroMensagens.getInstancia().InformacaoMensagem("Nenhum resultado encontrado!");
             numLabel.setText("Nenhum resultado encontrado!");
-        }else{
+        } else {
             numLabel.setText(String.valueOf(list.size()));
-            String[] linha = new String[]{null, null, null, null ,null ,null, null, null, null,null};
+            String[] linha = new String[]{null, null, null, null, null, null, null, null, null, null};
             int i = 0;
             for (SftOutputGlos sftGlos : list) {
-                try{
-                    int size = sftGlos.getSftCtrlHistoricoList().size()-1;
+                try {
+                    int size = sftGlos.getSftCtrlHistoricoList().size() - 1;
                     dtm.addRow(linha);
                     dtm.setValueAt(((sftGlos.getSftCtrlHistoricoList() != null) ? sftGlos.getSftCtrlHistoricoList()
                             .get(size).getUsuariosId().getLogin() : null), i, 0);//user
@@ -795,16 +799,16 @@ public class JPGlosa extends javax.swing.JPanel {
                     dtm.setValueAt(((sftGlos.getFkStat() != null) ? sftGlos.getFkStat()
                             .getStatusNmDescricao() : null), i, 8);//mostra descricao
                     dtm.setValueAt(sftGlos.getGlosVlVlos(), i, 9);//mostra valor
-                    i++;                    
-                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){
+                    i++;
+                } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
                     System.out.println("Erro na visualização");
                 }
             }
         }
     }
-    
-    public void jTTabelaLinhaSelecionada(JTable masterTable){
-        try{
+
+    public void jTTabelaLinhaSelecionada(JTable masterTable) {
+        try {
             osFild.setText(list.get(masterTable.getSelectedRow()).getGlosOsNumos());
             obsFild.setText(list.get(masterTable.getSelectedRow()).getGlosObObsglos());
             jCStatus.setSelectedItem(list.get(masterTable.getSelectedRow()).getFkStat().getStatusNmDescricao());
@@ -812,7 +816,7 @@ public class JPGlosa extends javax.swing.JPanel {
             convFild.setText(list.get(masterTable.getSelectedRow()).getFkConv().getMascaraConvenioId().getDescricao());
             nConCombo.setSelectedItem(list.get(masterTable.getSelectedRow()).getFkNcon().getNconNmNmncon());
             valorFild.setText(String.valueOf(list.get(masterTable.getSelectedRow()).getGlosVlVlos()));
-        } catch(ArrayIndexOutOfBoundsException a){
+        } catch (ArrayIndexOutOfBoundsException a) {
             osFild.setText("");
             atenFild.setText("");
             convFild.setText("");
@@ -820,27 +824,27 @@ public class JPGlosa extends javax.swing.JPanel {
             obsFild.setText("");
             jCStatus.setSelectedItem("");
             valorFild.setText("");
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
         }
     }
     //fim exibição padrao
-    
+
     //inicio cadastro
     private void novo() {
         br.entidade.sft.SftOutputGlos s = new br.entidade.sft.SftOutputGlos();
         s.setSftCtrlHistoricoList(
-                Logger.getInstance().glosRegistros("cadastro", "nova glosa", 
-                        new ArrayList<SftCtrlHistorico>(),s));
+                Logger.getInstance().glosRegistros("cadastro", "nova glosa",
+                        new ArrayList<SftCtrlHistorico>(), s));
         Date dat = new Date(new java.util.Date().getTime());
         s.setGlosDtRegis(dat);
         dao.create(s);
         list.add(s);
         mostraPesquisa();
-        int row = list.size() -1;
+        int row = list.size() - 1;
         masterTable.setRowSelectionInterval(row, row);
         masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
     }
-   
+
     //Adicionar OS
     private void adicionaOS(String texto) throws NumberFormatException {
         //adiciona na lista e no tabela a OS encotrada
@@ -852,17 +856,17 @@ public class JPGlosa extends javax.swing.JPanel {
             int cod = codUnid.indexOf(unid);
             s.setSftCtrlHistoricoList(
                     Logger.getInstance().glosRegistros("adiciona", texto,
-                            s.getSftCtrlHistoricoList(),s));
+                            s.getSftCtrlHistoricoList(), s));
             //Adiciona na lista e na tabela a unidade encontrada
             list.get(masterTable.getSelectedRow()).setFkUnid(boxUnid.get(cod));
             masterTable.setValueAt(boxUnid.get(cod).getUnidNmNmunid(), masterTable.getSelectedRow(), 3);
-            
+
             //adiciona user de Hospitais
-            if(unid == 10){
+            if (unid == 10) {
                 atendente = true;
                 atenCod("MERID");
-            }   
-            if(unid == 26){
+            }
+            if (unid == 26) {
                 atendente = true;
                 atenCod("SRITA");
             }
@@ -870,8 +874,9 @@ public class JPGlosa extends javax.swing.JPanel {
             osFild.setText("");
             ErroMensagens.getInstancia().AtencaoMensagem("OS já cadastrada!");
         }
-        
+
     }
+
     //testa a existencia de uma OS
     private boolean teste(String texto) {
         List<SftOutputGlos> incos = dao.getGlosList(texto);
@@ -881,8 +886,8 @@ public class JPGlosa extends javax.swing.JPanel {
             return false;
         }
     }
-    
-     //modelagem de OS
+
+    //modelagem de OS
     private void modelaOS() throws NumberFormatException {
         // TODO add your handling code here:
         try {
@@ -901,6 +906,7 @@ public class JPGlosa extends javax.swing.JPanel {
             }
         }
     }
+
     //fim adiciona OS
     //Inicio JDealog
     public void openDielog() {
@@ -912,7 +918,7 @@ public class JPGlosa extends javax.swing.JPanel {
         hist = new JDGlosHist(this, true);
         hist.setVisible(true);
     }
-    
+
     public List<SftOutputGlos> toRemove() {
         int[] selected = masterTable.getSelectedRows();
         List<br.entidade.sft.SftOutputGlos> toRemove = new ArrayList<>(selected.length);
@@ -930,9 +936,10 @@ public class JPGlosa extends javax.swing.JPanel {
     public List<SftOutputGlos> getHist() {
         return listHist;
     }
+
     //Fim JDialog
     //incio atendente
-    private void atenCod(String user){
+    private void atenCod(String user) {
         int cod;
         if (atendente) {
             try {
@@ -953,7 +960,7 @@ public class JPGlosa extends javax.swing.JPanel {
                     user = "FATURAMENTO SANTA RITA";
                 }
                 cod = codAten.indexOf(user);
-                if(cod != -1){
+                if (cod != -1) {
                     atenEncontrado(cod);
                 }
                 if (atendente) {
@@ -971,7 +978,7 @@ public class JPGlosa extends javax.swing.JPanel {
             }
         }
     }
-    
+
     private void atenEncontrado(int cod) {
         SftOutputGlos s = list.get(masterTable.getSelectedRow());
         SftInputAten get = boxAten.get(cod);
@@ -979,12 +986,12 @@ public class JPGlosa extends javax.swing.JPanel {
         s.setFkAten(get);
         s.setSftCtrlHistoricoList(
                 Logger.getInstance().glosRegistros("atendente", get.getAtenNmNmaten(),
-                        s.getSftCtrlHistoricoList(),s));
+                        s.getSftCtrlHistoricoList(), s));
         masterTable.setValueAt(get.getAtenNmNmaten(), masterTable.getSelectedRow(), 4);
         atendente = false;
     }
     //fim atendente
-    
+
     //incio convênio
     private void convCod(String conv) {
         // TODO add your handling code here:
@@ -992,9 +999,9 @@ public class JPGlosa extends javax.swing.JPanel {
             try {
                 Integer.parseInt(conv);
                 int cod = codMascara.indexOf(conv);
-                if(cod != -1){
+                if (cod != -1) {
                     convEncontrado(cod);
-                }else{
+                } else {
                     ErroMensagens.getInstancia().Errado();
                     convFild.setText("");
                     convFild.requestFocus();
@@ -1024,12 +1031,12 @@ public class JPGlosa extends javax.swing.JPanel {
         s.setFkConv(get);
         s.setSftCtrlHistoricoList(
                 Logger.getInstance().glosRegistros("convenio", get.getDescricao(),
-                        s.getSftCtrlHistoricoList(),s));
+                        s.getSftCtrlHistoricoList(), s));
         masterTable.setValueAt(get.getMascaraConvenioId().getDescricao(), masterTable.getSelectedRow(), 5);
         convenio = false;
     }
     //fim convênio
-    
+
     //Incio Status
     private void status() {
         // TODO add your handling code here:
@@ -1041,11 +1048,12 @@ public class JPGlosa extends javax.swing.JPanel {
                     masterTable.setValueAt(jCStatus.getSelectedItem(), masterTable.getSelectedRow(), 8);
                     s.setSftCtrlHistoricoList(
                             Logger.getInstance().glosRegistros("status", jCStatus.getSelectedItem().toString(),
-                                    s.getSftCtrlHistoricoList(),s));
+                                    s.getSftCtrlHistoricoList(), s));
                 }
             }
         }
     }
+
     //não conformidade metodo unico
     private SftInputNcon nCombo(String nCon) {
         // TODO add your handling code here:
@@ -1058,7 +1066,7 @@ public class JPGlosa extends javax.swing.JPanel {
                         masterTable.setValueAt(sftNcon.getNconNmNmncon(), masterTable.getSelectedRow(), 6);
                         s.setSftCtrlHistoricoList(
                                 Logger.getInstance().glosRegistros("inconsistencia", sftNcon.getNconNmNmncon(),
-                                        s.getSftCtrlHistoricoList(),s));
+                                        s.getSftCtrlHistoricoList(), s));
                         return sftNcon;
                     }
                 }
@@ -1068,6 +1076,7 @@ public class JPGlosa extends javax.swing.JPanel {
         }
         return null;
     }
+
     //adiciona Observação
     private void obs(String obs) {
         // TODO add your handling code here:
@@ -1076,17 +1085,17 @@ public class JPGlosa extends javax.swing.JPanel {
         masterTable.setValueAt(obs, masterTable.getSelectedRow(), 7);
         s.setSftCtrlHistoricoList(
                 Logger.getInstance().glosRegistros("observacao", obs,
-                        s.getSftCtrlHistoricoList(),s));
+                        s.getSftCtrlHistoricoList(), s));
     }
-    
+
     private void valor(String valor) {
         // TODO add your handling code here:
         try {
             SftOutputGlos s = list.get(masterTable.getSelectedRow());
             s.setGlosVlVlos(Double.valueOf(valor));
             s.setSftCtrlHistoricoList(
-                Logger.getInstance().glosRegistros("valor", valor,
-                        s.getSftCtrlHistoricoList(),s));
+                    Logger.getInstance().glosRegistros("valor", valor,
+                            s.getSftCtrlHistoricoList(), s));
             masterTable.setValueAt(valor, masterTable.getSelectedRow(), 9);
             saveButton.requestFocus();
         } catch (NumberFormatException e) {
@@ -1095,9 +1104,9 @@ public class JPGlosa extends javax.swing.JPanel {
         }
     }
     //fim do cadastro de OS
-    
+
     //Upload não foi implementado para esta versão
     private void upload() {
     }
-            
+
 }

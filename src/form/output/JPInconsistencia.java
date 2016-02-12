@@ -36,11 +36,13 @@ import superior.entrada.Tradutor;
 import superior.mensagens.ErroMensagens;
 import superior.sessao.Logger;
 
-/**admin
+/**
+ * admin
  *
  * @author Adriano
  */
 public class JPInconsistencia extends javax.swing.JPanel {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -440,7 +442,7 @@ public class JPInconsistencia extends javax.swing.JPanel {
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void infoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoButtonActionPerformed
-        
+
         openDielog();
         list = dao.refresh(list);
         mostraPesquisa();
@@ -473,8 +475,9 @@ public class JPInconsistencia extends javax.swing.JPanel {
                 osFild.setText("");
                 ErroMensagens.getInstancia().close();
             } else {
-                if(!osFild.getText().isEmpty())
+                if (!osFild.getText().isEmpty()) {
                     atenFild.requestFocus();
+                }
             }
         }
     }//GEN-LAST:event_osFildKeyReleased
@@ -622,7 +625,7 @@ public class JPInconsistencia extends javax.swing.JPanel {
     private boolean convenio;
     private TableModel dtm = new TableModel();
     private SftInputUnid unidade;
-    
+
     private ListSelectionModel lsm;
     //Fim da Criacao de variaveiz
 
@@ -660,12 +663,16 @@ public class JPInconsistencia extends javax.swing.JPanel {
 
         codAten = new ArrayList<>();
         for (SftInputAten sftAten : boxAten) {
-            codAten.add(sftAten.getAtenUsUsaten().replace("USER", ""));
+            if (sftAten.getAtenNmNmaten() != null) {
+                codAten.add(sftAten.getAtenUsUsaten().replace("USER", ""));
+            }
         }
 
         codUnid = new ArrayList<>();
         for (SftInputUnid sftUnid : boxUnid) {
-            codUnid.add(sftUnid.getUnidCodCodigo());
+            if (sftUnid.getUnidCodCodigo() != null) {
+                codUnid.add(sftUnid.getUnidCodCodigo());
+            }
         }
 
         nConCombo.removeAllItems();
@@ -751,7 +758,7 @@ public class JPInconsistencia extends javax.swing.JPanel {
     public void setBoxUnid(List<SftInputUnid> boxUnid) {
         this.boxUnid = boxUnid;
     }
-    
+
     public List<SftOutputInco> toRemove() {
         int[] selected = masterTable.getSelectedRows();
         List<br.entidade.sft.SftOutputInco> toRemove = new ArrayList<>(selected.length);
@@ -826,9 +833,9 @@ public class JPInconsistencia extends javax.swing.JPanel {
                             get));
             //Adiciona na lista e na tabela a unidade encontrada
             setUnidade(boxUnid.get(cod));
-            if(!boxUnid.get(cod).isUnidMtMultiplo()){
+            if (!boxUnid.get(cod).isUnidMtMultiplo()) {
                 get.setFkUnid(getUnidade());
-            }else{
+            } else {
                 mostraMultUnid();
             }
             dtm.setValueAt(getUnidade(), masterTable.getSelectedRow(), 3);
@@ -854,11 +861,11 @@ public class JPInconsistencia extends javax.swing.JPanel {
     public void setUnidade(SftInputUnid unidade) {
         this.unidade = unidade;
     }
-    
+
     public List<SftInputUnid> getBoxUnid() {
         return boxUnid;
     }
-    
+
     private void mostraMultUnid() {
         multUnid = new JDInconsistencia(this, true);
         multUnid.setVisible(true);
@@ -981,7 +988,7 @@ public class JPInconsistencia extends javax.swing.JPanel {
                     s.setFkStat(sftStatus);
                     dtm.setValueAt(sftStatus, masterTable.getSelectedRow(), 8);
                     list.get(masterTable.getSelectedRow()).setSftCtrlHistoricoList(Logger.getInstance().incoRegistros("status", statusCombo.getSelectedItem().toString(),
-                                    s.getSftCtrlHistoricoList(), s));
+                            s.getSftCtrlHistoricoList(), s));
                 }
             }
         }
@@ -1035,7 +1042,7 @@ public class JPInconsistencia extends javax.swing.JPanel {
             }
         }
     }
-    
+
     /*
      Não conformidade é selecionada ao iniciar o upload
      Unidade é tirada da OS columns[0].split("-")[0]

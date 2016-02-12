@@ -294,7 +294,7 @@ public class JIAtendente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        
+
         try {
             dao.salvar();
         } catch (RollbackException e) {
@@ -302,11 +302,11 @@ public class JIAtendente extends javax.swing.JInternalFrame {
             dao.refresh();
             list = dao.findAll(SftInputAten.class);
             ErroMensagens.getInstancia().ErroMensagem("Você deve estar cometendo um dos seguntes erros. \n"
-                                                    + "1 - Atendente com nome vazio. \n"
-                                                    + "2 - Atendente com User vazio. \n"
-                                                    + "3 - Atendente já cadastrado. ");
+                    + "1 - Atendente com nome vazio. \n"
+                    + "2 - Atendente com User vazio. \n"
+                    + "3 - Atendente já cadastrado. ");
             System.err.println(e);
-        } 
+        }
         mostraPesquisa();
     }//GEN-LAST:event_saveButtonActionPerformed
 
@@ -328,16 +328,16 @@ public class JIAtendente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        
-            int[] selected = masterTable.getSelectedRows();
-            List<br.entidade.sft.SftInputAten> toRemove = new ArrayList<br.entidade.sft.SftInputAten>(selected.length);
-            for (int idx = 0; idx < selected.length; idx++) {
-                br.entidade.sft.SftInputAten s = list.get(masterTable.convertRowIndexToModel(selected[idx]));
-                toRemove.add(s);
-                dao.remover(s);
-            }
-            list.removeAll(toRemove);
-            mostraPesquisa();
+
+        int[] selected = masterTable.getSelectedRows();
+        List<br.entidade.sft.SftInputAten> toRemove = new ArrayList<br.entidade.sft.SftInputAten>(selected.length);
+        for (int idx = 0; idx < selected.length; idx++) {
+            br.entidade.sft.SftInputAten s = list.get(masterTable.convertRowIndexToModel(selected[idx]));
+            toRemove.add(s);
+            dao.remover(s);
+        }
+        list.removeAll(toRemove);
+        mostraPesquisa();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void atenNmNmatenFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_atenNmNmatenFieldKeyReleased
@@ -363,18 +363,18 @@ public class JIAtendente extends javax.swing.JInternalFrame {
 
     private void shareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shareButtonActionPerformed
         // TODO add your handling code here:
-        list = dao.getEntityManager().createNamedQuery("SftInputAten.findByAtenNmNmaten",SftInputAten.class)
+        list = dao.getEntityManager().createNamedQuery("SftInputAten.findByAtenNmNmaten", SftInputAten.class)
                 .setParameter("atenNmNmaten", "%" + shareFild.getText() + "%").getResultList();
-        if(list.isEmpty()){
-            list = dao.getEntityManager().createNamedQuery("SftInputAten.findByAtenUsUsaten",SftInputAten.class)
-                .setParameter("atenUsUsaten", "%" + shareFild.getText() + "%").getResultList();
+        if (list.isEmpty()) {
+            list = dao.getEntityManager().createNamedQuery("SftInputAten.findByAtenUsUsaten", SftInputAten.class)
+                    .setParameter("atenUsUsaten", "%" + shareFild.getText() + "%").getResultList();
         }
         mostraPesquisa();
     }//GEN-LAST:event_shareButtonActionPerformed
 
     private void shareFildKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_shareFildKeyPressed
         // TODO add your handling code here:
-        if(KeyEvent.VK_ENTER == evt.getKeyCode()){
+        if (KeyEvent.VK_ENTER == evt.getKeyCode()) {
             shareButton.requestFocus();
         }
     }//GEN-LAST:event_shareFildKeyPressed
@@ -438,28 +438,32 @@ public class JIAtendente extends javax.swing.JInternalFrame {
     }
 
     public void jTTabelaLinhaSelecionada(JTable masterTable) {
-        try{
+        try {
             atenIdIdatenField.setText(String.valueOf(list.get(masterTable.getSelectedRow()).getAtenIdIdaten()));
             atenNmNmatenField.setText(list.get(masterTable.getSelectedRow()).getAtenNmNmaten());
             atenUsUsatenField.setText(list.get(masterTable.getSelectedRow()).getAtenUsUsaten());
-        }  catch(ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             atenIdIdatenField.setText("");
             atenNmNmatenField.setText("");
             atenUsUsatenField.setText("");
         }
     }
+
     private void desativarObjeto(SftInputAten s) {
         s.setAtenNmNmaten("ZZ " + s.getAtenNmNmaten());
         dao.editar(s);
     }
-    
+
     private void removeDesativado() {
         List<SftInputAten> toRemove = new ArrayList<>();
-        try{ 
-        for (SftInputAten sftAten : list) {
-            if (sftAten.getAtenNmNmaten().contains("ZZ ")) toRemove.add(sftAten);
+        try {
+            for (SftInputAten sftAten : list) {
+                if (sftAten.getAtenNmNmaten().contains("ZZ ")) {
+                    toRemove.add(sftAten);
+                }
+            }
+        } catch (NullPointerException e) {
         }
-        }catch(NullPointerException e){}
         list.removeAll(toRemove);
     }
 
